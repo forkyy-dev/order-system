@@ -1,4 +1,4 @@
-name: BE - CI(Init repo -> CI Gradle Cache -> Test)
+name: BE - CI
 
 on:
   pull_request:
