@@ -53,6 +53,7 @@ public class StockControllerTest extends ControllerTest {
         .when()
                 .post("/api/stock")
         .then()
+                .log().all()
                 .statusCode(HttpStatus.CREATED.value())
                 .body("name", equalTo("의자"));
     }
@@ -133,11 +134,10 @@ public class StockControllerTest extends ControllerTest {
         return responseFields(
                 fieldWithPath("id").description("상품 고유 ID").type(JsonFieldType.NUMBER),
                 fieldWithPath("name").description("상품명").type(JsonFieldType.STRING),
-                fieldWithPath("price").description("계정 타입").type(JsonFieldType.STRING),
+                fieldWithPath("price").description("계정 타입").type(JsonFieldType.NUMBER),
                 fieldWithPath("currentQuantity").description("현재 상품 수량").type(JsonFieldType.NUMBER),
                 fieldWithPath("maxQuantity").description("최대 상품 수량").type(JsonFieldType.NUMBER),
-                fieldWithPath("categoryId").description("카테고리 고유 ID").type(JsonFieldType.NUMBER),
-                fieldWithPath("categoryName").description("카테고리명").type(JsonFieldType.STRING)
+                fieldWithPath("categoryId").description("카테고리 고유 ID").type(JsonFieldType.NUMBER)
         );
     }
 
