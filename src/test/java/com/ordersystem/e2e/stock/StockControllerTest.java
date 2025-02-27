@@ -3,8 +3,11 @@ package com.ordersystem.e2e.stock;
 import com.ordersystem.category.domain.Category;
 import com.ordersystem.category.domain.CategoryRepository;
 import com.ordersystem.common.ControllerTest;
+import com.ordersystem.stock.domain.Stock;
+import com.ordersystem.stock.domain.StockRepository;
 import com.ordersystem.stock.ui.dto.StockCreateRequest;
 import com.ordersystem.stock.ui.dto.StockModifyRequest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,19 @@ public class StockControllerTest extends ControllerTest {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private StockRepository stockRepository;
+
+    Stock testStock;
+
+    @BeforeEach
+    void setData() {
+        stockRepository.deleteAll();
+        categoryRepository.deleteAll();
+
+        testStock = stockRepository.save(new Stock("테스트용 데이터1", 12000D, 20, 20, 1L));
+    }
 
     @Test
     @DisplayName("관리자는 상품을 등록할 수 있다.")
@@ -62,8 +78,12 @@ public class StockControllerTest extends ControllerTest {
     @DisplayName("관리자는 상품을 수정할 수 있다.")
     void modify_stock() {
         StockModifyRequest request = StockModifyRequest.builder()
-                .stockId(1L)
+                .stockId(testStock.getId())
                 .stockName("책상")
+                .price(10000D)
+                .currentQuantity(10)
+                .maxQuantity(20)
+                .categoryId(testStock.getCategoryId())
                 .build();
 
         given(this.spec)
@@ -85,6 +105,7 @@ public class StockControllerTest extends ControllerTest {
         .when()
                 .put("/api/stock")
         .then()
+                .log().all()
                 .statusCode(HttpStatus.OK.value())
                 .body("name", equalTo(request.getStockName()));
     }
