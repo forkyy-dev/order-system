@@ -28,13 +28,17 @@ public class Stock {
     private StockQuantity maxQuantity;
     private Long categoryId;
 
-    public Stock(final String name, final double price, final int currentQuantity, final int maxQuantity, final Long categoryId) {
-        this.id = null;
+    public Stock(final Long id, final String name, final double price, final int currentQuantity, final int maxQuantity, final Long categoryId) {
+        this.id = id;
         this.name = name;
         this.price = new StockPrice(price);
         this.currentQuantity = new StockQuantity(currentQuantity);
         this.maxQuantity = new StockQuantity(maxQuantity);
         this.categoryId = categoryId;
+    }
+
+    public Stock(final String name, final double price, final int currentQuantity, final int maxQuantity, final Long categoryId) {
+        this(null, name, price, currentQuantity, maxQuantity, categoryId);
     }
 
     public Double getPrice() {
@@ -47,5 +51,13 @@ public class Stock {
 
     public Integer getMaxQuantity() {
         return this.maxQuantity.getQuantity();
+    }
+
+    public void updateInfo(String name, double price, int currentQuantity, int maxQuantity, long categoryId) {
+        this.name = name;
+        this.price = new StockPrice(price);
+        this.currentQuantity = new StockQuantity(currentQuantity);
+        this.maxQuantity = new StockQuantity(maxQuantity);
+        this.categoryId = categoryId;
     }
 }

@@ -8,4 +8,5 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     Optional<Stock> findByName(String name);
 
     Boolean existsByName(String name);
+    Boolean existsByNameAndCategoryId(String name, Long categoryId);
 }

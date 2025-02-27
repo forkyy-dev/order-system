@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class StockDto {
+public class StockModifyDto {
     private final long id;
     private final String name;
     private final double price;
@@ -14,8 +14,7 @@ public class StockDto {
     private final int maxQuantity;
     private final long categoryId;
 
-    public static StockDto from(final Stock stock) {
-        return new StockDto(stock.getId(), stock.getName(), stock.getPrice(), stock.getCurrentQuantity(), stock.getMaxQuantity(), stock.getCategoryId());
+    public Stock toEntity() {
+        return new Stock(id, name, price, currentQuantity, maxQuantity, categoryId);
     }
-
 }

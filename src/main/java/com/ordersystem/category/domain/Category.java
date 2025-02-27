@@ -19,8 +19,12 @@ public class Category extends BaseTimeEntity {
 
     private String name;
 
-    public Category(final String name) {
-        this.id = null;
+    public Category(Long id, String name) {
+        this.id = id;
         this.name = name;
+    }
+
+    public Category(final String name) {
+        this(null, name);
     }
 }
