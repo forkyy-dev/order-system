@@ -1,4 +1,4 @@
-package com.ordersystem.stock;
+package com.ordersystem.e2e.stock;
 
 import com.ordersystem.category.domain.Category;
 import com.ordersystem.category.domain.CategoryRepository;
@@ -69,12 +69,12 @@ public class StockControllerTest extends ControllerTest {
                 .filter(
                         document("stock-modify",
                                 requestFields(
-                                        fieldWithPath("stockId").description("상품 고유 ID").type(JsonFieldType.NUMBER),
-                                        fieldWithPath("stockName").description("상품명").type(JsonFieldType.STRING),
-                                        fieldWithPath("price").description("가격").type(JsonFieldType.NUMBER),
-                                        fieldWithPath("currentQuantity").description("현재 상품 개수").type(JsonFieldType.NUMBER),
-                                        fieldWithPath("maxQuantity").description("최대 상품 개수").type(JsonFieldType.NUMBER),
-                                        fieldWithPath("categoryId").description("카테고리 ID").type(JsonFieldType.NUMBER)
+                                        fieldWithPath("stockId").description("상품 고유 ID").type(JsonFieldType.NUMBER).optional(),
+                                        fieldWithPath("stockName").description("상품명").type(JsonFieldType.STRING).optional(),
+                                        fieldWithPath("price").description("가격").type(JsonFieldType.NUMBER).optional(),
+                                        fieldWithPath("currentQuantity").description("현재 상품 개수").type(JsonFieldType.NUMBER).optional(),
+                                        fieldWithPath("maxQuantity").description("최대 상품 개수").type(JsonFieldType.NUMBER).optional(),
+                                        fieldWithPath("categoryId").description("카테고리 ID").type(JsonFieldType.NUMBER).optional()
                                 ),
                                 responseFieldsStockDto()
                         )
