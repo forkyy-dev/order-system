@@ -19,8 +19,7 @@ import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
 
 @DisplayName("상품 API 테스트")
@@ -78,7 +77,6 @@ public class StockControllerTest extends ControllerTest {
     @DisplayName("관리자는 상품을 수정할 수 있다.")
     void modify_stock() {
         StockModifyRequest request = StockModifyRequest.builder()
-                .stockId(testStock.getId())
                 .stockName("책상")
                 .price(10000D)
                 .currentQuantity(10)
@@ -89,8 +87,8 @@ public class StockControllerTest extends ControllerTest {
         given(this.spec)
                 .filter(
                         document("stock-modify",
+                                pathParameters(parameterWithName("stockId").description("상품 ID")),
                                 requestFields(
-                                        fieldWithPath("stockId").description("상품 고유 ID").type(JsonFieldType.NUMBER).optional(),
                                         fieldWithPath("stockName").description("상품명").type(JsonFieldType.STRING).optional(),
                                         fieldWithPath("price").description("가격").type(JsonFieldType.NUMBER).optional(),
                                         fieldWithPath("currentQuantity").description("현재 상품 개수").type(JsonFieldType.NUMBER).optional(),
@@ -103,7 +101,7 @@ public class StockControllerTest extends ControllerTest {
                 .header("Content-type", MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
         .when()
-                .put("/api/stock")
+                .put("/api/stock/{stockId}", testStock.getId())
         .then()
                 .log().all()
                 .statusCode(HttpStatus.OK.value())
@@ -116,12 +114,12 @@ public class StockControllerTest extends ControllerTest {
         given(this.spec)
                 .filter(
                         document("stock-delete",
-                                requestFields(fieldWithPath("stockId").description("상품 고유 ID").type(JsonFieldType.NUMBER))
+                                pathParameters(parameterWithName("stockId").description("상품 ID"))
                         )
                 ).accept(MediaType.APPLICATION_JSON_VALUE)
                 .header("Content-type", MediaType.APPLICATION_JSON_VALUE)
         .when()
-                .delete("/api/stock")
+                .delete("/api/stock/{stockId}", testStock.getId())
         .then()
                 .statusCode(HttpStatus.OK.value());
     }

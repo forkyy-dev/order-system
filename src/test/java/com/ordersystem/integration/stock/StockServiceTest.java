@@ -17,6 +17,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -75,7 +77,7 @@ public class StockServiceTest {
     }
 
     @Test
-    @DisplayName("관리자는 상품을 수정할 수 있다.")
+    @DisplayName("상품을 수정할 수 있다.")
     void modify_stock_success() {
         //given
         Stock stock = stockRepository.save(FixtureBuilder.createSingleStock("상품1", category.getId()));
@@ -113,6 +115,19 @@ public class StockServiceTest {
                 .isInstanceOf(StockNotFoundException.class);
     }
 
+    @Test
+    @DisplayName("상품을 삭제할 수 있다.")
+    void delete_stock_success() {
+        //given
+        Stock stock = stockRepository.save(FixtureBuilder.createSingleStock("상품1", category.getId()));
+
+        //when
+        stockService.delete(stock.getId());
+        Optional<Stock> result = stockRepository.findById(stock.getId());
+
+        //then
+        assertThat(result).isEmpty();
+    }
 }
 
 
