@@ -32,5 +32,11 @@ public class StockService {
         stock.updateInfo(dto.getName(), dto.getPrice(), dto.getCurrentQuantity(), dto.getMaxQuantity(), dto.getCategoryId());
         return StockDto.from(stock);
     }
+
+    public void delete(Long stockId) {
+        Stock stock = stockRepository.findById(stockId).orElseThrow(() -> new StockNotFoundException(stockId));
+
+        stockRepository.delete(stock);
+    }
 }
 

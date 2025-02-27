@@ -9,14 +9,13 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class StockModifyRequest {
-    private final Long stockId;
     private final String stockName;
     private final Double price;
     private final Integer currentQuantity;
     private final Integer maxQuantity;
     private final Long categoryId;
 
-    public StockModifyDto toStockModifyDto() {
+    public StockModifyDto toStockModifyDto(Long stockId) {
         return new StockModifyDto(stockId, stockName, price, currentQuantity, maxQuantity, categoryId);
     }
 }

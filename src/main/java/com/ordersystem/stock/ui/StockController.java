@@ -23,9 +23,18 @@ public class StockController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
-    @PutMapping
-    private ResponseEntity<StockDto> modify(@Valid @RequestBody StockModifyRequest request) {
-        StockDto result = stockService.modify(request.toStockModifyDto());
+    @PutMapping("/{stockId}")
+    private ResponseEntity<StockDto> modify(
+            @Valid @PathVariable Long stockId,
+            @Valid @RequestBody StockModifyRequest request
+    ) {
+        StockDto result = stockService.modify(request.toStockModifyDto(stockId));
         return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping("/{stockId}")
+    private ResponseEntity<Void> delete(@Valid @PathVariable Long stockId) {
+        stockService.delete(stockId);
+        return ResponseEntity.ok(null);
     }
 }

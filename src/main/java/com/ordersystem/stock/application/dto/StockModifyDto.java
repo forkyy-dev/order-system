@@ -1,6 +1,5 @@
 package com.ordersystem.stock.application.dto;
 
-import com.ordersystem.stock.domain.Stock;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -13,8 +12,4 @@ public class StockModifyDto {
     private final int currentQuantity;
     private final int maxQuantity;
     private final long categoryId;
-
-    public Stock toEntity() {
-        return new Stock(id, name, price, currentQuantity, maxQuantity, categoryId);
-    }
 }
