@@ -4,4 +4,7 @@
 
 == 테스트
 
-operation::test[snippets="http-request,http-response"]
+operation::stock-create[snippets="http-request,http-response"]
+operation::stock-modify[snippets="http-request,http-response"]
+operation::stock-delete[snippets="http-request,http-response"]
+operation::stock-search[snippets="http-request,http-response"]
