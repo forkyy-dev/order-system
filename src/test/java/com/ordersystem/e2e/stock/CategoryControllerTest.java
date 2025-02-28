@@ -5,7 +5,6 @@ import com.ordersystem.category.domain.CategoryRepository;
 import com.ordersystem.category.ui.dto.CategoryCreateRequest;
 import com.ordersystem.category.ui.dto.CategoryModifyRequest;
 import com.ordersystem.common.ControllerTest;
-import com.ordersystem.stock.ui.dto.StockCreateRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

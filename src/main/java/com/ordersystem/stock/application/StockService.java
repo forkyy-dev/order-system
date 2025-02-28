@@ -27,9 +27,11 @@ public class StockService {
     public StockDto create(final StockCreateDto dto) {
         Category category = categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new CategoryNotFoundException(dto.getCategoryId()));
+
         if (stockRepository.existsByNameAndCategoryId(dto.getName(), dto.getCategoryId())) {
             throw new DuplicatedStockException(dto.getName());
         }
+
         Stock stock = stockRepository.save(dto.toEntity());
         return StockDto.from(stock, category);
     }
@@ -38,14 +40,17 @@ public class StockService {
     public StockDto modify(final StockModifyDto dto) {
         Category category = categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new CategoryNotFoundException(dto.getCategoryId()));
-        Stock stock = stockRepository.findById(dto.getId()).orElseThrow(() -> new StockNotFoundException(dto.getId()));
+        Stock stock = stockRepository.findById(dto.getId())
+                .orElseThrow(() -> new StockNotFoundException(dto.getId()));
+
         stock.updateInfo(dto.getName(), dto.getPrice(), dto.getCurrentQuantity(), dto.getMaxQuantity(), dto.getCategoryId());
         return StockDto.from(stock, category);
     }
 
     @Transactional
     public void delete(Long stockId) {
-        Stock stock = stockRepository.findById(stockId).orElseThrow(() -> new StockNotFoundException(stockId));
+        Stock stock = stockRepository.findById(stockId)
+                .orElseThrow(() -> new StockNotFoundException(stockId));
 
         stockRepository.delete(stock);
     }
