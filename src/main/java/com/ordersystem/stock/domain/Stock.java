@@ -17,47 +17,33 @@ public class Stock {
     @Embedded
     private StockPrice price;
     @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "quantity", column = @Column(name = "current_quantity"))
-    })
-    private StockQuantity currentQuantity;
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "quantity", column = @Column(name = "max_quantity"))
-    })
-    private StockQuantity maxQuantity;
+    private StockQuantity quantity;
     private Long categoryId;
 
-    public Stock(final Long id, final String name, final double price, final int currentQuantity, final int maxQuantity, final Long categoryId) {
+    public Stock(final Long id, final String name, final double price, final int quantity, final Long categoryId) {
         this.id = id;
         this.name = name;
         this.price = new StockPrice(price);
-        this.currentQuantity = new StockQuantity(currentQuantity);
-        this.maxQuantity = new StockQuantity(maxQuantity);
+        this.quantity = new StockQuantity(quantity);
         this.categoryId = categoryId;
     }
 
-    public Stock(final String name, final double price, final int currentQuantity, final int maxQuantity, final Long categoryId) {
-        this(null, name, price, currentQuantity, maxQuantity, categoryId);
+    public Stock(final String name, final double price, final int currentQuantity, final Long categoryId) {
+        this(null, name, price, currentQuantity, categoryId);
     }
 
     public Double getPrice() {
         return this.price.getPrice();
     }
 
-    public Integer getCurrentQuantity() {
-        return this.currentQuantity.getQuantity();
+    public Integer getQuantity() {
+        return this.quantity.getQuantity();
     }
 
-    public Integer getMaxQuantity() {
-        return this.maxQuantity.getQuantity();
-    }
-
-    public void updateInfo(String name, double price, int currentQuantity, int maxQuantity, long categoryId) {
+    public void updateInfo(String name, double price, int quantity, long categoryId) {
         this.name = name;
         this.price = new StockPrice(price);
-        this.currentQuantity = new StockQuantity(currentQuantity);
-        this.maxQuantity = new StockQuantity(maxQuantity);
+        this.quantity = new StockQuantity(quantity);
         this.categoryId = categoryId;
     }
 }

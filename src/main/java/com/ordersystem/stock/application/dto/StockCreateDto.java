@@ -10,10 +10,10 @@ public class StockCreateDto {
 
     private final String name;
     private final double price;
-    private final int maxQuantity;
+    private final int quantity;
     private final long categoryId;
 
     public Stock toEntity() {
-        return new Stock(name, price, maxQuantity, maxQuantity, categoryId);
+        return new Stock(name, price, quantity, categoryId);
     }
 }

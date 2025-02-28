@@ -43,7 +43,7 @@ public class StockService {
         Stock stock = stockRepository.findById(dto.getId())
                 .orElseThrow(() -> new StockNotFoundException(dto.getId()));
 
-        stock.updateInfo(dto.getName(), dto.getPrice(), dto.getCurrentQuantity(), dto.getMaxQuantity(), dto.getCategoryId());
+        stock.updateInfo(dto.getName(), dto.getPrice(), dto.getQuantity(), dto.getCategoryId());
         return StockDto.from(stock, category);
     }
 

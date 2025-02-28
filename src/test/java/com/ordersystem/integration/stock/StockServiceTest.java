@@ -57,8 +57,7 @@ class StockServiceTest {
         assertAll(() -> {
             assertThat(result.getName()).isEqualTo(dto.getName());
             assertThat(result.getPrice()).isEqualTo(dto.getPrice());
-            assertThat(result.getCurrentQuantity()).isEqualTo(dto.getMaxQuantity());
-            assertThat(result.getMaxQuantity()).isEqualTo(dto.getMaxQuantity());
+            assertThat(result.getQuantity()).isEqualTo(dto.getQuantity());
             assertThat(result.getCategoryId()).isEqualTo(dto.getCategoryId());
         });
     }
@@ -85,8 +84,7 @@ class StockServiceTest {
                 stock.getId(),
                 "의자2",
                 stock.getPrice() - 1000,
-                stock.getCurrentQuantity(),
-                stock.getMaxQuantity(),
+                stock.getQuantity(),
                 category.getId()
         );
 
@@ -97,8 +95,7 @@ class StockServiceTest {
         assertAll(() -> {
             assertThat(result.getName()).isEqualTo(dto.getName());
             assertThat(result.getPrice()).isEqualTo(dto.getPrice());
-            assertThat(result.getCurrentQuantity()).isEqualTo(dto.getMaxQuantity());
-            assertThat(result.getMaxQuantity()).isEqualTo(dto.getMaxQuantity());
+            assertThat(result.getQuantity()).isEqualTo(dto.getQuantity());
             assertThat(result.getCategoryId()).isEqualTo(dto.getCategoryId());
         });
     }
@@ -107,7 +104,7 @@ class StockServiceTest {
     @DisplayName("해당 상품이 존재하지 않을 경우 예외를 반환한다.")
     void modify_stock_fail_by_not_found() {
         //given
-        StockModifyDto dto = new StockModifyDto(1L, "의자2", 9000, 10, 20, category.getId());
+        StockModifyDto dto = new StockModifyDto(1L, "의자2", 9000, 20, category.getId());
 
         //when & then
         assertThatThrownBy(() -> stockService.modify(dto))

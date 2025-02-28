@@ -11,10 +11,10 @@ import lombok.RequiredArgsConstructor;
 public class StockCreateRequest {
     private final String stockName;
     private final Double price;
-    private final Integer maxQuantity;
+    private final Integer quantity;
     private final Long categoryId;
 
     public StockCreateDto toStockCreateDto() {
-        return new StockCreateDto(stockName, price, maxQuantity, categoryId);
+        return new StockCreateDto(stockName, price, quantity, categoryId);
     }
 }

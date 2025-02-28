@@ -11,13 +11,12 @@ public class StockDto {
     private final long id;
     private final String name;
     private final double price;
-    private final int currentQuantity;
-    private final int maxQuantity;
+    private final int quantity;
     private final long categoryId;
     private final String categoryName;
 
     public static StockDto from(final Stock stock, final Category category) {
-        return new StockDto(stock.getId(), stock.getName(), stock.getPrice(), stock.getCurrentQuantity(), stock.getMaxQuantity(), category.getId(), category.getName());
+        return new StockDto(stock.getId(), stock.getName(), stock.getPrice(), stock.getQuantity(), category.getId(), category.getName());
     }
 
 }

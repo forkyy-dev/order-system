@@ -41,7 +41,7 @@ class StockControllerTest extends ControllerTest {
         categoryRepository.deleteAll();
 
         category = categoryRepository.save(new Category("카테고리1"));
-        testStock = stockRepository.save(new Stock("테스트용 데이터1", 12000D, 20, 20, category.getId()));
+        testStock = stockRepository.save(new Stock("테스트용 데이터1", 12000D, 20, category.getId()));
         for (int i = 1; i <= 20; i++) {
             stockRepository.save(FixtureBuilder.createSingleStock("테스트 상품" + i, category.getId()));
         }
@@ -53,7 +53,7 @@ class StockControllerTest extends ControllerTest {
         StockCreateRequest request = StockCreateRequest.builder()
                 .stockName("의자")
                 .price(10000.0)
-                .maxQuantity(20)
+                .quantity(20)
                 .categoryId(category.getId())
                 .build();
 
@@ -63,7 +63,7 @@ class StockControllerTest extends ControllerTest {
                                 requestFields(
                                         fieldWithPath("stockName").description("상품명").type(JsonFieldType.STRING),
                                         fieldWithPath("price").description("가격").type(JsonFieldType.NUMBER),
-                                        fieldWithPath("maxQuantity").description("최대 상품 개수").type(JsonFieldType.NUMBER),
+                                        fieldWithPath("quantity").description("최대 상품 개수").type(JsonFieldType.NUMBER),
                                         fieldWithPath("categoryId").description("카테고리 ID").type(JsonFieldType.NUMBER)
                                 ),
                                 responseFieldsStockDto()
@@ -84,8 +84,7 @@ class StockControllerTest extends ControllerTest {
         StockModifyRequest request = StockModifyRequest.builder()
                 .stockName("책상")
                 .price(10000D)
-                .currentQuantity(10)
-                .maxQuantity(20)
+                .quantity(10)
                 .categoryId(category.getId())
                 .build();
 
@@ -96,8 +95,7 @@ class StockControllerTest extends ControllerTest {
                                 requestFields(
                                         fieldWithPath("stockName").description("상품명").type(JsonFieldType.STRING).optional(),
                                         fieldWithPath("price").description("가격").type(JsonFieldType.NUMBER).optional(),
-                                        fieldWithPath("currentQuantity").description("현재 상품 개수").type(JsonFieldType.NUMBER).optional(),
-                                        fieldWithPath("maxQuantity").description("최대 상품 개수").type(JsonFieldType.NUMBER).optional(),
+                                        fieldWithPath("quantity").description("현재 상품 개수").type(JsonFieldType.NUMBER).optional(),
                                         fieldWithPath("categoryId").description("카테고리 ID").type(JsonFieldType.NUMBER).optional()
                                 ),
                                 responseFieldsStockDto()
@@ -160,8 +158,7 @@ class StockControllerTest extends ControllerTest {
                 fieldWithPath("id").description("상품 고유 ID").type(JsonFieldType.NUMBER),
                 fieldWithPath("name").description("상품명").type(JsonFieldType.STRING),
                 fieldWithPath("price").description("계정 타입").type(JsonFieldType.NUMBER),
-                fieldWithPath("currentQuantity").description("현재 상품 수량").type(JsonFieldType.NUMBER),
-                fieldWithPath("maxQuantity").description("최대 상품 수량").type(JsonFieldType.NUMBER),
+                fieldWithPath("quantity").description("현재 상품 수량").type(JsonFieldType.NUMBER),
                 fieldWithPath("categoryId").description("카테고리 고유 ID").type(JsonFieldType.NUMBER),
                 fieldWithPath("categoryName").description("카테고리명").type(JsonFieldType.STRING)
         );
@@ -172,8 +169,7 @@ class StockControllerTest extends ControllerTest {
                 fieldWithPath("stocks[].id").description("상품 고유 ID").type(JsonFieldType.NUMBER),
                 fieldWithPath("stocks[].name").description("상품명").type(JsonFieldType.STRING),
                 fieldWithPath("stocks[].price").description("계정 타입").type(JsonFieldType.NUMBER),
-                fieldWithPath("stocks[].currentQuantity").description("현재 상품 수량").type(JsonFieldType.NUMBER),
-                fieldWithPath("stocks[].maxQuantity").description("최대 상품 수량").type(JsonFieldType.NUMBER),
+                fieldWithPath("stocks[].quantity").description("현재 상품 수량").type(JsonFieldType.NUMBER),
                 fieldWithPath("stocks[].categoryId").description("카테고리 고유 ID").type(JsonFieldType.NUMBER),
                 fieldWithPath("stocks[].categoryName").description("카테고리명").type(JsonFieldType.STRING),
 

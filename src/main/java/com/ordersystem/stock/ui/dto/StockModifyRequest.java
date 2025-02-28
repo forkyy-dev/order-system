@@ -11,11 +11,10 @@ import lombok.RequiredArgsConstructor;
 public class StockModifyRequest {
     private final String stockName;
     private final Double price;
-    private final Integer currentQuantity;
-    private final Integer maxQuantity;
+    private final Integer quantity;
     private final Long categoryId;
 
     public StockModifyDto toStockModifyDto(Long stockId) {
-        return new StockModifyDto(stockId, stockName, price, currentQuantity, maxQuantity, categoryId);
+        return new StockModifyDto(stockId, stockName, price, quantity, categoryId);
     }
 }
