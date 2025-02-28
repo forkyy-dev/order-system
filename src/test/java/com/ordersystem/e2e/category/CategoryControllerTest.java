@@ -1,4 +1,4 @@
-package com.ordersystem.e2e.stock;
+package com.ordersystem.e2e.category;
 
 import com.ordersystem.category.domain.Category;
 import com.ordersystem.category.domain.CategoryRepository;
