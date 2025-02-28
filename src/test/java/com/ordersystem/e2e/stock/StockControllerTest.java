@@ -24,7 +24,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
 
 @DisplayName("[RestDocs] 상품 API 테스트")
-public class StockControllerTest extends ControllerTest {
+class StockControllerTest extends ControllerTest {
 
     @Autowired
     private CategoryRepository categoryRepository;
