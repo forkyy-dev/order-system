@@ -5,10 +5,7 @@ import com.ordersystem.category.domain.CategoryRepository;
 import com.ordersystem.common.IntegrationTest;
 import com.ordersystem.common.helper.FixtureBuilder;
 import com.ordersystem.stock.application.StockService;
-import com.ordersystem.stock.application.dto.StockCreateDto;
-import com.ordersystem.stock.application.dto.StockDto;
-import com.ordersystem.stock.application.dto.StockModifyDto;
-import com.ordersystem.stock.application.dto.StockSearchDto;
+import com.ordersystem.stock.application.dto.*;
 import com.ordersystem.stock.domain.Stock;
 import com.ordersystem.stock.domain.StockRepository;
 import com.ordersystem.stock.exception.DuplicatedStockException;
@@ -18,7 +15,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 
 import java.util.Optional;
 
@@ -140,11 +136,11 @@ public class StockServiceTest {
         StockSearchDto dto = new StockSearchDto(category.getId(), stock.getName(), PageRequest.of(0, 10));
 
         //when
-        Slice<StockDto> result = stockService.search(dto);
+        StockPaginationDto result = stockService.search(dto);
 
         //then
-        assertThat(result.getContent().get(0).getId()).isEqualTo(stock.getId());
-        assertThat(result.getContent().get(0).getName()).isEqualTo(stock.getName());
+        assertThat(result.getStocks().get(0).getId()).isEqualTo(stock.getId());
+        assertThat(result.getStocks().get(0).getName()).isEqualTo(stock.getName());
     }
 
     @Test
@@ -158,11 +154,11 @@ public class StockServiceTest {
 
         //when
 
-        Slice<StockDto> result = stockService.search(dto);
+        StockPaginationDto result = stockService.search(dto);
 
         //then
-        assertThat(result.getSize()).isEqualTo(10);
-        assertThat(result.getPageable().getPageNumber()).isEqualTo(0);
+        assertThat(result.getPageInfo().getSize()).isEqualTo(10);
+        assertThat(result.getPageInfo().getPageNumber()).isEqualTo(0);
     }
 }
 

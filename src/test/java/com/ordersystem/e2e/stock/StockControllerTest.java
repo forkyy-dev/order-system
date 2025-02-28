@@ -3,6 +3,7 @@ package com.ordersystem.e2e.stock;
 import com.ordersystem.category.domain.Category;
 import com.ordersystem.category.domain.CategoryRepository;
 import com.ordersystem.common.ControllerTest;
+import com.ordersystem.common.helper.FixtureBuilder;
 import com.ordersystem.stock.domain.Stock;
 import com.ordersystem.stock.domain.StockRepository;
 import com.ordersystem.stock.ui.dto.StockCreateRequest;
@@ -31,6 +32,7 @@ public class StockControllerTest extends ControllerTest {
     @Autowired
     private StockRepository stockRepository;
 
+    Category category;
     Stock testStock;
 
     @BeforeEach
@@ -38,7 +40,11 @@ public class StockControllerTest extends ControllerTest {
         stockRepository.deleteAll();
         categoryRepository.deleteAll();
 
-        testStock = stockRepository.save(new Stock("테스트용 데이터1", 12000D, 20, 20, 1L));
+        category = categoryRepository.save(new Category("카테고리1"));
+        testStock = stockRepository.save(new Stock("테스트용 데이터1", 12000D, 20, 20, category.getId()));
+        for (int i = 1; i <= 20; i++) {
+            stockRepository.save(FixtureBuilder.createSingleStock("테스트 상품" + i, category.getId()));
+        }
     }
 
     @Test
@@ -48,7 +54,7 @@ public class StockControllerTest extends ControllerTest {
                 .stockName("의자")
                 .price(10000.0)
                 .maxQuantity(20)
-                .categoryId(1L)
+                .categoryId(category.getId())
                 .build();
 
         given(this.spec)
@@ -68,7 +74,6 @@ public class StockControllerTest extends ControllerTest {
         .when()
                 .post("/api/stock")
         .then()
-                .log().all()
                 .statusCode(HttpStatus.CREATED.value())
                 .body("name", equalTo("의자"));
     }
@@ -81,7 +86,7 @@ public class StockControllerTest extends ControllerTest {
                 .price(10000D)
                 .currentQuantity(10)
                 .maxQuantity(20)
-                .categoryId(testStock.getCategoryId())
+                .categoryId(category.getId())
                 .build();
 
         given(this.spec)
@@ -103,7 +108,6 @@ public class StockControllerTest extends ControllerTest {
         .when()
                 .put("/api/stock/{stockId}", testStock.getId())
         .then()
-                .log().all()
                 .statusCode(HttpStatus.OK.value())
                 .body("name", equalTo(request.getStockName()));
     }
@@ -127,9 +131,8 @@ public class StockControllerTest extends ControllerTest {
     @Test
     @DisplayName("사용자는 카테고리 정보와 상품명을 바탕으로 상품 목록을 조회할 수 있다.")
     void search_stock() {
-        String stockName = "의자";
+        String stockName = "테스트";
         int pageNumber = 0;
-        Category category = categoryRepository.findById(1L).get();
 
         given(this.spec)
                 .filter(
@@ -159,7 +162,8 @@ public class StockControllerTest extends ControllerTest {
                 fieldWithPath("price").description("계정 타입").type(JsonFieldType.NUMBER),
                 fieldWithPath("currentQuantity").description("현재 상품 수량").type(JsonFieldType.NUMBER),
                 fieldWithPath("maxQuantity").description("최대 상품 수량").type(JsonFieldType.NUMBER),
-                fieldWithPath("categoryId").description("카테고리 고유 ID").type(JsonFieldType.NUMBER)
+                fieldWithPath("categoryId").description("카테고리 고유 ID").type(JsonFieldType.NUMBER),
+                fieldWithPath("categoryName").description("카테고리명").type(JsonFieldType.STRING)
         );
     }
 
@@ -174,8 +178,8 @@ public class StockControllerTest extends ControllerTest {
                 fieldWithPath("stocks[].categoryName").description("카테고리명").type(JsonFieldType.STRING),
 
                 fieldWithPath("page.size").description("조회된 데이터 개수").type(JsonFieldType.NUMBER),
-                fieldWithPath("page.nextId").description("다음 검색할 id").type(JsonFieldType.NUMBER),
-                fieldWithPath("page.last").description("마지막 여부").type(JsonFieldType.BOOLEAN)
+                fieldWithPath("page.pageNumber").description("현재 페이지 번호").type(JsonFieldType.NUMBER),
+                fieldWithPath("page.isLast").description("마지막 여부").type(JsonFieldType.BOOLEAN)
         );
     }
 }
