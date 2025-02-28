@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DisplayName("[Integration] 상품 통합 테스트")
 @IntegrationTest
-public class StockServiceTest {
+class StockServiceTest {
 
     @Autowired
     private StockRepository stockRepository;
