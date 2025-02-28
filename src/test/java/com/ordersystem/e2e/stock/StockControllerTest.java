@@ -23,7 +23,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
 
-@DisplayName("상품 API 테스트")
+@DisplayName("[RestDocs] 상품 API 테스트")
 public class StockControllerTest extends ControllerTest {
 
     @Autowired
@@ -171,15 +171,15 @@ public class StockControllerTest extends ControllerTest {
         return responseFields(
                 fieldWithPath("stocks[].id").description("상품 고유 ID").type(JsonFieldType.NUMBER),
                 fieldWithPath("stocks[].name").description("상품명").type(JsonFieldType.STRING),
-                fieldWithPath("stocks[].price").description("계정 타입").type(JsonFieldType.STRING),
+                fieldWithPath("stocks[].price").description("계정 타입").type(JsonFieldType.NUMBER),
                 fieldWithPath("stocks[].currentQuantity").description("현재 상품 수량").type(JsonFieldType.NUMBER),
                 fieldWithPath("stocks[].maxQuantity").description("최대 상품 수량").type(JsonFieldType.NUMBER),
                 fieldWithPath("stocks[].categoryId").description("카테고리 고유 ID").type(JsonFieldType.NUMBER),
                 fieldWithPath("stocks[].categoryName").description("카테고리명").type(JsonFieldType.STRING),
 
-                fieldWithPath("page.size").description("조회된 데이터 개수").type(JsonFieldType.NUMBER),
-                fieldWithPath("page.pageNumber").description("현재 페이지 번호").type(JsonFieldType.NUMBER),
-                fieldWithPath("page.isLast").description("마지막 여부").type(JsonFieldType.BOOLEAN)
+                fieldWithPath("pageInfo.size").description("조회된 데이터 개수").type(JsonFieldType.NUMBER),
+                fieldWithPath("pageInfo.pageNumber").description("현재 페이지 번호").type(JsonFieldType.NUMBER),
+                fieldWithPath("pageInfo.last").description("마지막 여부").type(JsonFieldType.BOOLEAN)
         );
     }
 }

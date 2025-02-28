@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@DisplayName("[통합테스트] 상품")
+@DisplayName("[Integration] 상품 통합 테스트")
 @IntegrationTest
 public class StockServiceTest {
 
