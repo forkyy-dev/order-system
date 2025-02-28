@@ -125,9 +125,10 @@ public class StockControllerTest extends ControllerTest {
     }
 
     @Test
-    @DisplayName("사용자는 카테고리 정보를 바탕으로 상품을 조회할 수 있다.")
+    @DisplayName("사용자는 카테고리 정보와 상품명을 바탕으로 상품 목록을 조회할 수 있다.")
     void search_stock() {
         String stockName = "의자";
+        int pageNumber = 0;
         Category category = categoryRepository.findById(1L).get();
 
         given(this.spec)
@@ -135,7 +136,8 @@ public class StockControllerTest extends ControllerTest {
                         document("stock-search",
                                 queryParameters(
                                         parameterWithName("categoryId").description("카테고리 고유 ID"),
-                                        parameterWithName("stockName").description("상품명")
+                                        parameterWithName("stockName").description("상품명"),
+                                        parameterWithName("pageNumber").description("페이지 번호")
                                 ),
                                 responseFieldsStockPaginationDto()
                         )
@@ -143,6 +145,7 @@ public class StockControllerTest extends ControllerTest {
                 .header("Content-type", MediaType.APPLICATION_JSON_VALUE)
                 .queryParam("categoryId", category.getId())
                 .queryParam("stockName", stockName)
+                .queryParam("pageNumber", pageNumber)
         .when()
                 .get("/api/stocks")
         .then()

@@ -8,6 +8,7 @@ import com.ordersystem.stock.application.StockService;
 import com.ordersystem.stock.application.dto.StockCreateDto;
 import com.ordersystem.stock.application.dto.StockDto;
 import com.ordersystem.stock.application.dto.StockModifyDto;
+import com.ordersystem.stock.application.dto.StockSearchDto;
 import com.ordersystem.stock.domain.Stock;
 import com.ordersystem.stock.domain.StockRepository;
 import com.ordersystem.stock.exception.DuplicatedStockException;
@@ -16,6 +17,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 
 import java.util.Optional;
 
@@ -127,6 +130,39 @@ public class StockServiceTest {
 
         //then
         assertThat(result).isEmpty();
+    }
+
+    @Test
+    @DisplayName("카테고리 번호와 상품명으로 상품 목록을 조회할 수 있다.")
+    void read_stocks_by_stock_name_success() {
+        //given
+        Stock stock = stockRepository.save(FixtureBuilder.createSingleStock("상품1", category.getId()));
+        StockSearchDto dto = new StockSearchDto(category.getId(), stock.getName(), PageRequest.of(0, 10));
+
+        //when
+        Slice<StockDto> result = stockService.search(dto);
+
+        //then
+        assertThat(result.getContent().get(0).getId()).isEqualTo(stock.getId());
+        assertThat(result.getContent().get(0).getName()).isEqualTo(stock.getName());
+    }
+
+    @Test
+    @DisplayName("카테고리에 해당하는 상품 목록을 조회할 수 있다.")
+    void read_stocks_by_category_success() {
+        //given
+        for (int i = 0; i < 10; i++) {
+            stockRepository.save(FixtureBuilder.createSingleStock("상품" + i, category.getId()));
+        }
+        StockSearchDto dto = new StockSearchDto(category.getId(), PageRequest.of(0, 10));
+
+        //when
+
+        Slice<StockDto> result = stockService.search(dto);
+
+        //then
+        assertThat(result.getSize()).isEqualTo(10);
+        assertThat(result.getPageable().getPageNumber()).isEqualTo(0);
     }
 }
 
