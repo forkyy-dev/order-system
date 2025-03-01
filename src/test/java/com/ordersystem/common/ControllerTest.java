@@ -1,6 +1,7 @@
 package com.ordersystem.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ordersystem.common.config.RedisEmbeddedConfig;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.config.ObjectMapperConfig;
@@ -12,26 +13,26 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.test.context.ActiveProfiles;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Import({RedisEmbeddedConfig.class})
 @ExtendWith(RestDocumentationExtension.class)
-@ActiveProfiles("test")
 public class ControllerTest {
 
     @LocalServerPort
     protected int port;
-
+    @Autowired
+    protected StringRedisTemplate redisTemplate;
     @Autowired
     protected ObjectMapper objectMapper;
-
     protected RequestSpecification spec;
-
     {
         setUpRestAssured();
     }
@@ -58,5 +59,4 @@ public class ControllerTest {
                         )
                 );
     }
-
 }

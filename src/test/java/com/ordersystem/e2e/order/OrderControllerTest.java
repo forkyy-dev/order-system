@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -36,7 +37,7 @@ class OrderControllerTest extends ControllerTest {
 
     Category category;
     List<Stock> stocks;
-
+    Stock stock;
     @BeforeEach
     void setData() {
         stockRepository.deleteAll();
@@ -47,6 +48,10 @@ class OrderControllerTest extends ControllerTest {
         for (int i = 1; i <= 20; i++) {
             stocks.add(stockRepository.save(FixtureBuilder.createSingleStock("상품" + i, category.getId())));
         }
+        ValueOperations<String, String> ops = redisTemplate.opsForValue();
+
+        stock = stocks.get(0);
+        ops.set("stock:" + stock.getId(), stock.getQuantity().toString());
     }
 
     @Test
@@ -101,9 +106,12 @@ class OrderControllerTest extends ControllerTest {
         return responseFields(
                 fieldWithPath("orderId").description("주문 고유 ID").type(JsonFieldType.NUMBER),
                 fieldWithPath("orderNumber").description("주문 번호").type(JsonFieldType.STRING),
-                fieldWithPath("orderStocks[].stockId").description("계정 타입").type(JsonFieldType.NUMBER),
+                fieldWithPath("orderStocks[].stockId").description("상품 고유 ID").type(JsonFieldType.NUMBER),
+                fieldWithPath("orderStocks[].orderStockId").description("주문 상품 고유 ID").type(JsonFieldType.NUMBER),
                 fieldWithPath("orderStocks[].quantity").description("상품 주문 수량").type(JsonFieldType.NUMBER),
-                fieldWithPath("orderStocks[].price").description("상품 주문 가격").type(JsonFieldType.NUMBER),
+                fieldWithPath("orderStocks[].originalPrice").description("상품 개별 수량").type(JsonFieldType.NUMBER),
+                fieldWithPath("orderStocks[].totalPrice").description("상품 총 가격").type(JsonFieldType.NUMBER),
+                fieldWithPath("orderStocks[].orderId").description("상품 주문 가격").type(JsonFieldType.NUMBER),
                 fieldWithPath("totalPrice").description("주문 총 금액").type(JsonFieldType.NUMBER),
                 fieldWithPath("status").description("주문 상태").type(JsonFieldType.STRING),
                 fieldWithPath("orderDate").description("주문 일시").type(JsonFieldType.STRING)
