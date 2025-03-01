@@ -13,13 +13,13 @@ public class StockQuantity {
 
     private Integer quantity;
 
-    public StockQuantity(int quantity) {
+    public StockQuantity(final int quantity) {
         validateQuantity(quantity);
         this.quantity = quantity;
     }
 
-    private void validateQuantity(int quantity) {
-        if (quantity <= 0) {
+    private void validateQuantity(final int quantity) {
+        if (quantity < 0) {
             throw new StockQuantityOutOfRangeException(quantity);
         }
     }
