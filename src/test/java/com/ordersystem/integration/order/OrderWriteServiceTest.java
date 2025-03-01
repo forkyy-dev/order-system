@@ -80,7 +80,7 @@ class OrderWriteServiceTest {
         //then
         assertThat(order.getOrderStocks().size()).isEqualTo(1);
         assertThat(order.getTotalPrice()).isEqualTo(price);
-        assertThat(order.getStatus()).isEqualTo(OrderStatus.PRE);
+        assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.PRE);
     }
 
     @Test
@@ -122,7 +122,7 @@ class OrderWriteServiceTest {
         //then
         assertThat(order.getOrderStocks().size()).isEqualTo(1);
         assertThat(order.getTotalPrice()).isEqualTo(price);
-        assertThat(order.getStatus()).isEqualTo(OrderStatus.PRE);
+        assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.PRE);
     }
 
     @Test
@@ -152,7 +152,7 @@ class OrderWriteServiceTest {
         OrderDto orderDto = orderService.confirmOrder(dto);
 
         //then
-        assertThat(orderDto.getStatus()).isEqualTo(OrderStatus.CONFIRM);
+        assertThat(orderDto.getOrderStatus()).isEqualTo(OrderStatus.CONFIRM);
     }
 
     @Test
@@ -175,7 +175,7 @@ class OrderWriteServiceTest {
                 .sum();
 
         //then
-        assertThat(result.getStatus()).isEqualTo(OrderStatus.CONFIRM);
+        assertThat(result.getOrderStatus()).isEqualTo(OrderStatus.CONFIRM);
         assertThat(stocksTotalQuantity).isEqualTo(37);
     }
 
@@ -190,7 +190,7 @@ class OrderWriteServiceTest {
         OrderDto result = orderService.cancelOrder(order.getId());
 
         //then
-        assertThat(result.getStatus()).isEqualTo(OrderStatus.CANCEL);
+        assertThat(result.getOrderStatus()).isEqualTo(OrderStatus.CANCEL);
     }
 
     @Test

@@ -1,9 +1,8 @@
 package com.ordersystem.order.application;
 
+import com.ordersystem.common.dto.PageDto;
 import com.ordersystem.common.exception.ApplicationException;
-import com.ordersystem.order.application.dto.ConfirmOrderDto;
-import com.ordersystem.order.application.dto.CreateOrderDto;
-import com.ordersystem.order.application.dto.OrderDto;
+import com.ordersystem.order.application.dto.*;
 import com.ordersystem.order.domain.*;
 import com.ordersystem.order.exception.AlreadyCanceledException;
 import com.ordersystem.order.exception.OrderNotFoundException;
@@ -16,6 +15,8 @@ import com.ordersystem.stock.exception.StockNotFoundException;
 import com.ordersystem.stock.exception.StockSoldOutException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -111,6 +112,60 @@ public class OrderService {
         order.cancel();
         insertOrderStatusHistory(order);
         return OrderDto.from(order, orderStocks);
+    }
+
+    @Transactional(readOnly = true)
+    public OrderInfoPaginationDto getAllOrderInfoByPagination(Long userId, Pageable pageable) {
+        Slice<Order> orderSlice = orderRepository.findAllByUserIdOrderByOrderDateDesc(userId, pageable);
+
+        PageDto pageDto = new PageDto(orderSlice.getNumberOfElements(), orderSlice.getPageable().getPageNumber(), orderSlice.isLast());
+        if (orderSlice.getContent().isEmpty()) {
+            return OrderInfoPaginationDto.empty(pageDto);
+        }
+
+        Map<Long, List<OrderStock>> orderStockPair = fetchOrderStocksAndStocks(orderSlice.getContent().stream().map(Order::getId).toList());
+        Map<Long, Stock> stockPair = fetchStockPair(orderStockPair);
+
+        List<OrderInfoDto> orderInfoDtos = orderSlice.getContent().stream()
+                .map(order -> convertToOrderInfoDto(order, orderStockPair, stockPair))
+                .toList();
+
+        return OrderInfoPaginationDto.from(orderInfoDtos, pageDto);
+    }
+
+    @Transactional(readOnly = true)
+    public OrderInfoDto getSingleOrderInfo(Long userId, Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException(orderId));
+        Map<Long, List<OrderStock>> orderStockPair = fetchOrderStocksAndStocks(List.of(orderId));
+        Map<Long, Stock> stockPair = fetchStockPair(orderStockPair);
+
+        return convertToOrderInfoDto(order, orderStockPair, stockPair);
+    }
+
+    private Map<Long, List<OrderStock>> fetchOrderStocksAndStocks(List<Long> orderIds) {
+        List<OrderStock> orderStocks = orderStockRepository.findAllByOrderIdIsIn(orderIds);
+        return orderStocks.stream().collect(Collectors.groupingBy(OrderStock::getOrderId));
+    }
+
+    private Map<Long, Stock> fetchStockPair(Map<Long, List<OrderStock>> orderStockPair) {
+        List<Long> stockIds = orderStockPair.values().stream()
+                .flatMap(List::stream)
+                .map(OrderStock::getStockId)
+                .distinct()
+                .toList();
+
+        return stockRepository.findAllByIdIsIn(stockIds).stream()
+                .collect(Collectors.toMap(Stock::getId, stock -> stock));
+    }
+
+    private OrderInfoDto convertToOrderInfoDto(Order order, Map<Long, List<OrderStock>> orderStockPair, Map<Long, Stock> stockPair) {
+        List<OrderStock> orderStockList = orderStockPair.getOrDefault(order.getId(), List.of());
+        List<OrderStockInfoDto> orderStockInfos = orderStockList.stream()
+                .map(orderStock -> OrderStockInfoDto.from(orderStock, stockPair.get(orderStock.getStockId())))
+                .toList();
+
+        return OrderInfoDto.from(order, orderStockInfos);
     }
 
     private void fallbackToDatabase(Map<Long, Integer> stockIdQuantityPair) {

@@ -85,7 +85,7 @@ class OrderReadServiceTest {
                 assertThat(order.getTotalPrice()).isEqualTo(dto.getTotalPrice());
                 assertThat(order.getStatus()).isEqualTo(dto.getOrderStatus());
             }
-            assertThat(orderDtos.getPageInfo().getSize()).isEqualTo(10);
+            assertThat(orderDtos.getPageInfo().getSize()).isEqualTo(2);
             assertThat(orderDtos.getPageInfo().getPageNumber()).isEqualTo(0);
             assertThat(orderDtos.getPageInfo().isLast()).isTrue();
         });
@@ -112,7 +112,7 @@ class OrderReadServiceTest {
                         new OrderStock(1, 10000D, stocks.get(3).getId(), order.getId()))
         );
         //when
-        OrderInfoDto singleOrderInfo = orderService.getSingleOrderInfo(order.getId());
+        OrderInfoDto singleOrderInfo = orderService.getSingleOrderInfo(userId, order.getId());
 
         //then
         assertAll(() -> {
@@ -135,7 +135,7 @@ class OrderReadServiceTest {
     @Test
     @DisplayName("단일 조회 시 주문 정보가 없으면 예외를 반환한다.")
     void search_single_order_fail_by_not_found() {
-        assertThatThrownBy(() -> orderService.getSingleOrderInfo(100000L))
+        assertThatThrownBy(() -> orderService.getSingleOrderInfo(1L, 100000L))
                 .isInstanceOf(OrderNotFoundException.class);
     }
 

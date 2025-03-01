@@ -18,15 +18,15 @@ public class Order extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Embedded
-    private OrderNumber orderNumber;
+    private OrderNumber orderNo;
     private Double totalPrice;
     private LocalDateTime orderDate;
     private OrderStatus status;
     private Long userId;
 
-    private Order(Long id, OrderNumber orderNumber, Double totalPrice, LocalDateTime orderDate, OrderStatus status, Long userId) {
+    private Order(Long id, OrderNumber orderNo, Double totalPrice, LocalDateTime orderDate, OrderStatus status, Long userId) {
         this.id = id;
-        this.orderNumber = orderNumber;
+        this.orderNo = orderNo;
         this.totalPrice = totalPrice;
         this.orderDate = orderDate;
         this.status = status;
@@ -41,8 +41,8 @@ public class Order extends BaseTimeEntity {
         this(null, new OrderNumber(), totalPrice, LocalDateTime.now(), OrderStatus.PRE, userId);
     }
 
-    public String getOrderNumber() {
-        return this.orderNumber.getOrderNumber();
+    public String getOrderNo() {
+        return this.orderNo.getOrderNumber();
     }
 
     public void confirm() {

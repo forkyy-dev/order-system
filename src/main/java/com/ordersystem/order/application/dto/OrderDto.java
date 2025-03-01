@@ -14,10 +14,10 @@ import java.util.List;
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderDto {
     private final Long orderId;
-    private final String orderNumber;
+    private final String orderNo;
     private final List<OrderStockDto> orderStocks;
     private final double totalPrice;
-    private final OrderStatus status;
+    private final OrderStatus orderStatus;
     private final LocalDateTime orderDate;
 
     public static OrderDto from(Order order, List<OrderStock> orderStocks) {
@@ -27,7 +27,7 @@ public class OrderDto {
 
         return new OrderDto(
                 order.getId(),
-                order.getOrderNumber(),
+                order.getOrderNo(),
                 orderStockDtos,
                 order.getTotalPrice(),
                 order.getStatus(),
