@@ -24,9 +24,9 @@ public class OrderTest {
         Order order = new Order(1000D, 1L);
 
         //when
-        order.success();
+        order.confirm();
 
         //then
-        assertThat(order.getStatus()).isEqualTo(OrderStatus.SUCCESS);
+        assertThat(order.getStatus()).isEqualTo(OrderStatus.CONFIRM);
     }
 }

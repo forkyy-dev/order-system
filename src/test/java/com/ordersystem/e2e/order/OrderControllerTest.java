@@ -4,8 +4,10 @@ import com.ordersystem.category.domain.Category;
 import com.ordersystem.category.domain.CategoryRepository;
 import com.ordersystem.common.ControllerTest;
 import com.ordersystem.common.helper.FixtureBuilder;
-import com.ordersystem.order.ui.dto.OrderCreateRequest;
-import com.ordersystem.order.ui.dto.OrderStockRequest;
+import com.ordersystem.order.domain.*;
+import com.ordersystem.order.ui.dto.ConfirmOrderRequest;
+import com.ordersystem.order.ui.dto.CreateOrderRequest;
+import com.ordersystem.order.ui.dto.CreateOrderStockRequest;
 import com.ordersystem.stock.domain.Stock;
 import com.ordersystem.stock.domain.StockRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
 
 @DisplayName("[RestDocs] 주문 API 테스트")
@@ -31,13 +36,18 @@ class OrderControllerTest extends ControllerTest {
 
     @Autowired
     private CategoryRepository categoryRepository;
-
     @Autowired
     private StockRepository stockRepository;
+    @Autowired
+    private OrderRepository orderRepository;
+    @Autowired
+    private OrderStockRepository orderStockRepository;
 
     Category category;
     List<Stock> stocks;
     Stock stock;
+    Order confirmedOrder;
+
     @BeforeEach
     void setData() {
         stockRepository.deleteAll();
@@ -45,23 +55,19 @@ class OrderControllerTest extends ControllerTest {
 
         stocks = new ArrayList<>();
         category = categoryRepository.save(new Category("카테고리1"));
-        for (int i = 1; i <= 20; i++) {
-            stocks.add(stockRepository.save(FixtureBuilder.createSingleStock("상품" + i, category.getId())));
-        }
-        ValueOperations<String, String> ops = redisTemplate.opsForValue();
-
-        stock = stocks.get(0);
-        ops.set("stock:" + stock.getId(), stock.getQuantity().toString());
+        setStockData();
+        setCacheData();
+        setOrderData();
     }
 
     @Test
-    @DisplayName("사용자는 주문을 생성할 수 있다.")
-    void create_order_success() {
+    @DisplayName("사용자는 가주문을 생성할 수 있다.")
+    void create_pre_order_success() {
         Stock stock = stocks.get(0);
         int quantity = 2;
         double price = stock.getPrice() * quantity;
-        OrderStockRequest stockRequest = new OrderStockRequest(stock.getId(), quantity, price);
-        OrderCreateRequest request = new OrderCreateRequest(1L, List.of(stockRequest));
+        CreateOrderStockRequest stockRequest = new CreateOrderStockRequest(stock.getId(), quantity, price);
+        CreateOrderRequest request = new CreateOrderRequest(1L, List.of(stockRequest));
 
         given(this.spec)
                 .filter(
@@ -75,10 +81,50 @@ class OrderControllerTest extends ControllerTest {
         .when()
                 .post("/api/order")
         .then()
-                .log().all()
                 .statusCode(HttpStatus.CREATED.value());
     }
 
+    @Test
+    @DisplayName("사용자는 주문을 완료할 수 있다.")
+    void confirm_order_success() {
+        ConfirmOrderRequest request = new ConfirmOrderRequest(1L, true);
+
+        given(this.spec)
+                .filter(
+                        document("order-confirm",
+                                pathParameters(parameterWithName("orderId").description("orderID")),
+                                requestFields(
+                                        fieldWithPath("userId").description("유저 고유 ID").type(JsonFieldType.NUMBER),
+                                        fieldWithPath("paymentSuccess").description("결제 성공 여부").type(JsonFieldType.BOOLEAN)
+                                ),
+                                responseFieldsStockDto()
+                        )
+                ).accept(MediaType.APPLICATION_JSON_VALUE)
+                .header("Content-type", MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+        .when()
+                .put("/api/order/{orderId}/confirm", confirmedOrder.getId())
+        .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("status", equalTo(OrderStatus.CONFIRM.name()));
+    }
+
+    @Test
+    @DisplayName("사용자는 주문을 취소할 수 있다.")
+    void cancel_order_success() {
+        given(this.spec)
+                .filter(
+                        document("order-cancel",
+                                responseFieldsStockDto()
+                        )
+                ).accept(MediaType.APPLICATION_JSON_VALUE)
+                .header("Content-type", MediaType.APPLICATION_JSON_VALUE)
+        .when()
+                .put("/api/order/{orderId}/cancel", confirmedOrder.getId())
+        .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("status", equalTo(OrderStatus.CANCEL.name()));
+    }
 
 //    @Test
 //    @DisplayName("사용자는 자신의 주문 목록을 조회할 수 있다.")
@@ -92,6 +138,25 @@ class OrderControllerTest extends ControllerTest {
 //
 //    }
 
+    private void setCacheData() {
+        ValueOperations<String, String> ops = redisTemplate.opsForValue();
+        ops.set("stock:" + stock.getId(), stock.getQuantity().toString());
+    }
+
+    private void setStockData() {
+        for (int i = 1; i <= 20; i++) {
+            stocks.add(stockRepository.save(FixtureBuilder.createSingleStock("상품" + i, category.getId())));
+        }
+        stock = stocks.get(0);
+    }
+
+    private void setOrderData() {
+        confirmedOrder = orderRepository.save(new Order(30000D, OrderStatus.CONFIRM,1L));
+        orderStockRepository.saveAll(
+                List.of(new OrderStock(2, 20000D, stocks.get(2).getId(), confirmedOrder.getId()),
+                        new OrderStock(1, 10000D, stocks.get(3).getId(), confirmedOrder.getId()))
+        );
+    }
 
     private static RequestFieldsSnippet requestFieldsOrderDto() {
         return requestFields(
