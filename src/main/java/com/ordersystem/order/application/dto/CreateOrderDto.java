@@ -11,27 +11,27 @@ import java.util.stream.Collectors;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-public class OrderCreateDto {
+public class CreateOrderDto {
     private final Long userId;
-    private final List<OrderStockCreateDto> orderStocks;
+    private final List<CreateOrderStockDto> orderStocks;
 
-    public static OrderCreateDto from(Long userId, List<OrderStockCreateDto> orderStocks) {
-        return new OrderCreateDto(userId, orderStocks);
+    public static CreateOrderDto from(Long userId, List<CreateOrderStockDto> orderStocks) {
+        return new CreateOrderDto(userId, orderStocks);
     }
 
     public Map<Long, Integer> getIdQuantityPair() {
         return orderStocks.stream()
-                .collect(Collectors.toMap(OrderStockCreateDto::getStockId, OrderStockCreateDto::getQuantity));
+                .collect(Collectors.toMap(CreateOrderStockDto::getStockId, CreateOrderStockDto::getQuantity));
     }
 
     public Map<String, Integer> getKeyQuantityPair(String keyFormat) {
         return orderStocks.stream()
-                .collect(Collectors.toMap((s) -> keyFormat + s.getStockId(), OrderStockCreateDto::getQuantity));
+                .collect(Collectors.toMap((s) -> keyFormat + s.getStockId(), CreateOrderStockDto::getQuantity));
     }
 
     public Set<Long> getOrderStockIds() {
         return orderStocks.stream()
-                .map(OrderStockCreateDto::getStockId)
+                .map(CreateOrderStockDto::getStockId)
                 .collect(Collectors.toSet());
     }
 }

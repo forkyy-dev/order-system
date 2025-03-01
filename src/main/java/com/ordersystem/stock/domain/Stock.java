@@ -46,4 +46,9 @@ public class Stock {
         this.quantity = new StockQuantity(quantity);
         this.categoryId = categoryId;
     }
+
+    public boolean isPurchasable(int amount) {
+        return this.getQuantity() >= amount;
+    }
+
 }

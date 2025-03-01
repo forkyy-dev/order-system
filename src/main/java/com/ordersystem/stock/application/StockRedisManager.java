@@ -3,7 +3,7 @@ package com.ordersystem.stock.application;
 import com.ordersystem.order.application.RedisConcurrencyManager;
 import com.ordersystem.order.application.RedisSubtractResult;
 import com.ordersystem.order.application.ResultCode;
-import com.ordersystem.order.application.dto.OrderCreateDto;
+import com.ordersystem.order.application.dto.CreateOrderDto;
 import com.ordersystem.stock.application.dto.StockCacheDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class StockRedisManager{
     private final RedisConcurrencyManager concurrencyManager;
 
     @Transactional
-    public RedisSubtractResult subtractStock(OrderCreateDto dto) {
+    public RedisSubtractResult subtractStock(CreateOrderDto dto) {
         return concurrencyManager.subtractMultipleStocks(dto.getKeyQuantityPair(STOCK_KEY_FORMAT));
     }
 

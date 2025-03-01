@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class OrderStockRequest {
+public class CreateOrderStockRequest {
     private final Long stockId;
     private final int quantity;
     private final double price;

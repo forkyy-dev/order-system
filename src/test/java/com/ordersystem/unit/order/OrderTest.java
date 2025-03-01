@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class OrderTest {
+@DisplayName("[Unit] 주문 Entity 테스트")
+class OrderTest {
 
     @Test
     @DisplayName("최초 주문 생성 시 준비 상태로 생성된다.")

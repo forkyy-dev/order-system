@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 @DisplayName("[Integration] 주문 조회 통합 테스트")
 @IntegrationTest
-public class OrderReadServiceTest {
+class OrderReadServiceTest {
 
     @Test
     @DisplayName("사용자는 자신의 주문 목록을 조회할 수 있다.")

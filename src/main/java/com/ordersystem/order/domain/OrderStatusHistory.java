@@ -1,10 +1,8 @@
 package com.ordersystem.order.domain;
 
 import com.ordersystem.common.domain.BaseTimeEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.ordersystem.common.utils.StatusChangeReasonConverter;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -18,4 +16,12 @@ public class OrderStatusHistory extends BaseTimeEntity {
 
     private Long orderId;
     private OrderStatus status;
+    @Convert(converter = StatusChangeReasonConverter.class)
+    private StatusChangeReason reason;
+
+    public OrderStatusHistory(Long orderId, OrderStatus status, StatusChangeReason reason) {
+        this.orderId = orderId;
+        this.status = status;
+        this.reason = reason;
+    }
 }
