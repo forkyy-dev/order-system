@@ -48,7 +48,7 @@ class StockServiceTest {
     @DisplayName("상품을 등록할 수 있다.")
     void create_stock_success() {
         //given
-        StockCreateDto dto = new StockCreateDto("상품1", 10000, 20, category.getId());
+        CreateStockDto dto = new CreateStockDto("상품1", 10000, 20, category.getId());
 
         //when
         StockDto result = stockService.create(dto);
@@ -67,7 +67,7 @@ class StockServiceTest {
     void create_stock_fail_by_duplicated_name() {
         //given
         stockRepository.save(FixtureBuilder.createSingleStock("상품1", category.getId()));
-        StockCreateDto dto = new StockCreateDto("상품1", 10000, 20, category.getId());
+        CreateStockDto dto = new CreateStockDto("상품1", 10000, 20, category.getId());
 
         //when & then
         assertThatThrownBy(() -> stockService.create(dto))
@@ -80,7 +80,7 @@ class StockServiceTest {
         //given
         Stock stock = stockRepository.save(FixtureBuilder.createSingleStock("상품1", category.getId()));
 
-        StockModifyDto dto = new StockModifyDto(
+        ModifyStockDto dto = new ModifyStockDto(
                 stock.getId(),
                 "의자2",
                 stock.getPrice() - 1000,
@@ -104,7 +104,7 @@ class StockServiceTest {
     @DisplayName("해당 상품이 존재하지 않을 경우 예외를 반환한다.")
     void modify_stock_fail_by_not_found() {
         //given
-        StockModifyDto dto = new StockModifyDto(1L, "의자2", 9000, 20, category.getId());
+        ModifyStockDto dto = new ModifyStockDto(1L, "의자2", 9000, 20, category.getId());
 
         //when & then
         assertThatThrownBy(() -> stockService.modify(dto))
@@ -130,7 +130,7 @@ class StockServiceTest {
     void read_stocks_by_stock_name_success() {
         //given
         Stock stock = stockRepository.save(FixtureBuilder.createSingleStock("상품1", category.getId()));
-        StockSearchDto dto = new StockSearchDto(category.getId(), stock.getName(), PageRequest.of(0, 10));
+        SearchStockDto dto = new SearchStockDto(category.getId(), stock.getName(), PageRequest.of(0, 10));
 
         //when
         StockPaginationDto result = stockService.search(dto);
@@ -147,7 +147,7 @@ class StockServiceTest {
         for (int i = 0; i < 10; i++) {
             stockRepository.save(FixtureBuilder.createSingleStock("상품" + i, category.getId()));
         }
-        StockSearchDto dto = new StockSearchDto(category.getId(), PageRequest.of(0, 10));
+        SearchStockDto dto = new SearchStockDto(category.getId(), PageRequest.of(0, 10));
 
         //when
 

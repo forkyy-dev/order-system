@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class StockCreateDto {
+public class CreateStockDto {
 
     private final String name;
     private final double price;

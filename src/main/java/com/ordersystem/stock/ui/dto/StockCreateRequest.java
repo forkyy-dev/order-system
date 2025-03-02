@@ -1,6 +1,6 @@
 package com.ordersystem.stock.ui.dto;
 
-import com.ordersystem.stock.application.dto.StockCreateDto;
+import com.ordersystem.stock.application.dto.CreateStockDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ public class StockCreateRequest {
     private final Integer quantity;
     private final Long categoryId;
 
-    public StockCreateDto toStockCreateDto() {
-        return new StockCreateDto(stockName, price, quantity, categoryId);
+    public CreateStockDto toStockCreateDto() {
+        return new CreateStockDto(stockName, price, quantity, categoryId);
     }
 }

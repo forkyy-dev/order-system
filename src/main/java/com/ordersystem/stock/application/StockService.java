@@ -24,7 +24,7 @@ public class StockService {
     private final StockRepository stockRepository;
 
     @Transactional
-    public StockDto create(final StockCreateDto dto) {
+    public StockDto create(final CreateStockDto dto) {
         Category category = categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new CategoryNotFoundException(dto.getCategoryId()));
 
@@ -37,7 +37,7 @@ public class StockService {
     }
 
     @Transactional
-    public StockDto modify(final StockModifyDto dto) {
+    public StockDto modify(final ModifyStockDto dto) {
         Category category = categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new CategoryNotFoundException(dto.getCategoryId()));
         Stock stock = stockRepository.findById(dto.getId())
@@ -56,7 +56,7 @@ public class StockService {
     }
 
     @Transactional(readOnly = true)
-    public StockPaginationDto search(StockSearchDto dto) {
+    public StockPaginationDto search(SearchStockDto dto) {
         Category category = categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new CategoryNotFoundException(dto.getCategoryId()));
         Slice<Stock> sliceResult = stockRepository.findByCategoryIdAndNameContains(dto.getCategoryId(), dto.getName(), dto.getPageable());
@@ -69,7 +69,7 @@ public class StockService {
                 .map(stock -> StockDto.from(stock, category))
                 .toList();
 
-        return new StockPaginationDto(stockDtos, PageDto.of(sliceResult.getSize(), sliceResult.getPageable().getPageNumber(), sliceResult.isLast()));
+        return new StockPaginationDto(stockDtos, PageDto.of(sliceResult.getNumberOfElements(), sliceResult.getPageable().getPageNumber(), sliceResult.isLast()));
     }
 }
 

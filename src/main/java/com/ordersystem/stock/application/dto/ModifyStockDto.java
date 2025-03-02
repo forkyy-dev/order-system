@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class StockModifyDto {
+public class ModifyStockDto {
     private final long id;
     private final String name;
     private final double price;
