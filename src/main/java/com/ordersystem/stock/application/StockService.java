@@ -7,6 +7,7 @@ import com.ordersystem.common.dto.PageDto;
 import com.ordersystem.stock.application.dto.*;
 import com.ordersystem.stock.domain.Stock;
 import com.ordersystem.stock.domain.StockRepository;
+import com.ordersystem.stock.events.StockEventProducer;
 import com.ordersystem.stock.exception.DuplicatedStockException;
 import com.ordersystem.stock.exception.StockNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +24,7 @@ public class StockService {
 
     private final CategoryRepository categoryRepository;
     private final StockRepository stockRepository;
+    private final StockEventProducer stockEventProducer;
 
     @Transactional
     public StockDto create(final CreateStockDto dto) {
@@ -33,6 +36,7 @@ public class StockService {
         }
 
         Stock stock = stockRepository.save(dto.toEntity());
+        stockEventProducer.produceStockCacheUpdateEvent(Set.of(stock.getId()));
         return StockDto.from(stock, category);
     }
 
@@ -48,7 +52,7 @@ public class StockService {
     }
 
     @Transactional
-    public void delete(Long stockId) {
+    public void delete(final Long stockId) {
         Stock stock = stockRepository.findById(stockId)
                 .orElseThrow(() -> new StockNotFoundException(stockId));
 
@@ -56,7 +60,7 @@ public class StockService {
     }
 
     @Transactional(readOnly = true)
-    public StockPaginationDto search(SearchStockDto dto) {
+    public StockPaginationDto search(final SearchStockDto dto) {
         Category category = categoryRepository.findById(dto.getCategoryId())
                 .orElseThrow(() -> new CategoryNotFoundException(dto.getCategoryId()));
         Slice<Stock> sliceResult = stockRepository.findByCategoryIdAndNameContains(dto.getCategoryId(), dto.getName(), dto.getPageable());

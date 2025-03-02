@@ -219,14 +219,4 @@ public class OrderService {
             throw new StockSoldOutException();
         }
     }
-
-    /*
-    1. 유저가 주문하기를 누르면 최초 주문이 생성된다.
-    2. 해당 주문 정보를 바탕으로 Order DB에 주문을 저장한다. - OrderHistory에도 Insert 한다.
-    3. 이후 유저가 부가정보를 입력 후 결제 요청을 하게 되면
-        - 결제 성공 시 해당 주문건을 주문 완료 상태로 변경한다. - OrderHistory에 Insert 한다.
-        - 결제 실패 시 예외 반환.
-    4. 만약 주문 취소를 하게 되면 주문건을 주문 취소 상태로 변경한다. - OrderHistory에 Insert 한다.
-     */
-
 }

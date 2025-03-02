@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RedisConcurrencyManager {
 
+    private static final String KEY_TOKEN = "stock:";
     private final RedisTemplate<String, Object> redisTemplate;
 
     public ResultCode setMultipleStocks(Map<String, Integer> keyQuantityPair) {
@@ -55,7 +56,7 @@ public class RedisConcurrencyManager {
             return List.of();
         }
         return keys.stream()
-                .map(s -> Long.valueOf(s.replace("stock:", "")))
+                .map(s -> Long.valueOf(s.replace(KEY_TOKEN, "")))
                 .toList();
     }
 
@@ -64,7 +65,7 @@ public class RedisConcurrencyManager {
         failedIds.addAll(soldOutIds);
         failedIds.addAll(notFoundIds);
         Map<String, Integer> successItemsMap = keyQuantityPair.entrySet().stream()
-                .filter(entry -> !failedIds.contains(Long.valueOf(entry.getKey().replace("stock:", ""))))
+                .filter(entry -> !failedIds.contains(Long.valueOf(entry.getKey().replace(KEY_TOKEN, ""))))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         executeScript(redisTemplate, rollbackScript(), successItemsMap);
     }
@@ -104,8 +105,7 @@ public class RedisConcurrencyManager {
     private String rollbackScript() {
         return """
                 for i, key in ipairs(KEYS) do
-                    if (redis.call('exists', key) == 1)
-                    then
+                    if (redis.call('exists', key) == 1) then
                         redis.call('increby', key, ARGV[1])
                     end
                 end
@@ -116,8 +116,7 @@ public class RedisConcurrencyManager {
     private String setScript() {
         return """
                 for i, key in ipairs(KEYS) do
-                    if (redis.call('exists', key) == 0)
-                    then
+                    if (redis.call('exists', key) == 0) then
                         redis.call('set', key, ARGV[1])
                     end
                 end
