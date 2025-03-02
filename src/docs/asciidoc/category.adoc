@@ -4,9 +4,9 @@
 === 1. 카테고리 생성 API
 
 ==== Request
-include::{snippets}/stock-create/http-request.adoc[]
-include::{snippets}/stock-create/request-fields.adoc[]
+include::{snippets}/category-create/http-request.adoc[]
+include::{snippets}/category-create/request-fields.adoc[]
 
 ==== Response
-include::{snippets}/stock-create/http-response.adoc[]
-include::{snippets}/stock-create/response-fields.adoc[]
+include::{snippets}/category-create/http-response.adoc[]
+include::{snippets}/category-create/response-fields.adoc[]

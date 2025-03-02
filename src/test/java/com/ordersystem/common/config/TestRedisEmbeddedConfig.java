@@ -50,7 +50,6 @@ public class TestRedisEmbeddedConfig {
         return Runtime.getRuntime().exec(shell);
     }
 
-
     private boolean isProcessRunning(Process process) {
         String line;
         StringBuilder stringBuilder = new StringBuilder();

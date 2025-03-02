@@ -23,6 +23,7 @@ public class RedisConcurrencyManager {
     public ResultCode setMultipleStocks(Map<String, Integer> keyQuantityPair) {
         List<Object> result = (List<Object>) executeScript(redisTemplate, setScript(), keyQuantityPair);
         Long statusCode = (Long) result.get(0);
+        log.debug("상품 정보 캐시 등록 완료");
         return ResultCode.from(statusCode);
     }
 
