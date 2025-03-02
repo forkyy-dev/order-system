@@ -119,6 +119,7 @@ class OrderControllerTest extends ControllerTest {
         given(this.spec)
                 .filter(
                         document("order-cancel",
+                                pathParameters(parameterWithName("orderId").description("orderID")),
                                 responseFieldsStockDto()
                         )
                 ).accept(MediaType.APPLICATION_JSON_VALUE)

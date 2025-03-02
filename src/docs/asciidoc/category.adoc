@@ -10,3 +10,24 @@ include::{snippets}/category-create/request-fields.adoc[]
 ==== Response
 include::{snippets}/category-create/http-response.adoc[]
 include::{snippets}/category-create/response-fields.adoc[]
+
+
+=== 2. 카테고리 수정 API
+
+==== Request
+include::{snippets}/category-modify/http-request.adoc[]
+include::{snippets}/category-modify/path-parameters.adoc[]
+include::{snippets}/category-modify/request-fields.adoc[]
+
+==== Response
+include::{snippets}/category-modify/http-response.adoc[]
+include::{snippets}/category-modify/response-fields.adoc[]
+
+=== 3. 카테고리 삭제 API
+
+==== Request
+include::{snippets}/category-delete/http-request.adoc[]
+include::{snippets}/category-delete/path-parameters.adoc[]
+
+==== Response
+include::{snippets}/category-delete/http-response.adoc[]

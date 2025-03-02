@@ -17,17 +17,6 @@ include::{snippets}/order-create/response-fields.adoc[]
 ==== Request
 include::{snippets}/order-confirm/http-request.adoc[]
 include::{snippets}/order-confirm/request-fields.adoc[]
-
-==== Response
-include::{snippets}/order-confirm/http-response.adoc[]
-include::{snippets}/order-confirm/response-fields.adoc[]
-
-
-=== 2. 주문 확정 API
-
-==== Request
-include::{snippets}/order-confirm/http-request.adoc[]
-include::{snippets}/order-confirm/request-fields.adoc[]
 include::{snippets}/order-confirm/path-parameters.adoc[]
 
 ==== Response
@@ -38,8 +27,7 @@ include::{snippets}/order-confirm/response-fields.adoc[]
 
 ==== Request
 include::{snippets}/order-cancel/http-request.adoc[]
-include::{snippets}/order-confirm/request-fields.adoc[]
-include::{snippets}/order-confirm/path-parameters.adoc[]
+include::{snippets}/order-cancel/path-parameters.adoc[]
 
 
 ==== Response
@@ -50,21 +38,21 @@ include::{snippets}/order-cancel/response-fields.adoc[]
 === 4. 주문 단건 조회 API
 
 ==== Request
-include::{snippets}/order-cancel/http-request.adoc[]
-include::{snippets}/order-confirm/path-parameters.adoc[]
+include::{snippets}/order-single-search/http-request.adoc[]
+include::{snippets}/order-single-search/query-parameters.adoc[]
+include::{snippets}/order-single-search/path-parameters.adoc[]
 
 ==== Response
-include::{snippets}/order-cancel/http-response.adoc[]
-include::{snippets}/order-cancel/response-fields.adoc[]
+include::{snippets}/order-single-search/http-response.adoc[]
+include::{snippets}/order-single-search/response-fields.adoc[]
 
 === 5. 주문 여러건 조회 API
 
 ==== Request
-include::{snippets}/order-cancel/http-request.adoc[]
-include::{snippets}/order-confirm/request-fields.adoc[]
-include::{snippets}/order-confirm/path-parameters.adoc[]
+include::{snippets}/order-multi-search/http-request.adoc[]
+include::{snippets}/order-multi-search/query-parameters.adoc[]
 
 
 ==== Response
-include::{snippets}/order-cancel/http-response.adoc[]
-include::{snippets}/order-cancel/response-fields.adoc[]
+include::{snippets}/order-multi-search/http-response.adoc[]
+include::{snippets}/order-multi-search/response-fields.adoc[]

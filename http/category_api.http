@@ -1,0 +1,21 @@
+### 1.카테고리 생성
+POST http://localhost:8080/api/category
+Content-Type: application/json
+
+{
+  "categoryName": "카테고리1"
+}
+
+
+### 2.카테고리 수정
+PUT http://localhost:8080/api/category/1
+Content-Type: application/json
+
+{
+  "categoryName": "변경된 카테고리1"
+}
+
+
+### 3.카테고리 삭제
+DELETE http://localhost:8080/api/category/1
+Content-Type: application/json
