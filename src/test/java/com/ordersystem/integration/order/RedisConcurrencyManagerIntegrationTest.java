@@ -1,12 +1,14 @@
 package com.ordersystem.integration.order;
 
 import com.ordersystem.common.IntegrationTest;
+import com.ordersystem.config.RedisTestConfig;
 import com.ordersystem.order.application.RedisConcurrencyManager;
 import com.ordersystem.order.application.RedisSubtractResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
@@ -21,6 +23,7 @@ import java.util.concurrent.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("[Integration] RedisConcurrencyManager 동시성 통합 테스트")
+@Import({RedisTestConfig.class})
 @IntegrationTest
 class RedisConcurrencyManagerIntegrationTest {
 

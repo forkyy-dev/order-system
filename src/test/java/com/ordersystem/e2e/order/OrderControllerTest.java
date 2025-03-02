@@ -4,6 +4,7 @@ import com.ordersystem.category.domain.Category;
 import com.ordersystem.category.domain.CategoryRepository;
 import com.ordersystem.common.ControllerTest;
 import com.ordersystem.common.helper.FixtureBuilder;
+import com.ordersystem.config.RedisTestConfig;
 import com.ordersystem.order.domain.*;
 import com.ordersystem.order.ui.dto.ConfirmOrderRequest;
 import com.ordersystem.order.ui.dto.CreateOrderRequest;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,6 +33,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
 
 @DisplayName("[RestDocs] 주문 API 테스트")
+@Import({RedisTestConfig.class})
 class OrderControllerTest extends ControllerTest {
 
     @Autowired

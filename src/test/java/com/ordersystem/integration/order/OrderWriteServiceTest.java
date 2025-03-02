@@ -4,6 +4,7 @@ import com.ordersystem.category.domain.Category;
 import com.ordersystem.category.domain.CategoryRepository;
 import com.ordersystem.common.IntegrationTest;
 import com.ordersystem.common.helper.FixtureBuilder;
+import com.ordersystem.config.RedisTestConfig;
 import com.ordersystem.order.application.OrderService;
 import com.ordersystem.order.application.dto.*;
 import com.ordersystem.order.domain.*;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
@@ -26,6 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("[Integration] 주문 생성, 취소 통합 테스트")
+@Import({RedisTestConfig.class})
 @IntegrationTest
 class OrderWriteServiceTest {
 
