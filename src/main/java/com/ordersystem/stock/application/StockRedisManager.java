@@ -23,14 +23,14 @@ public class StockRedisManager{
     private final RedisConcurrencyManager concurrencyManager;
 
     @Transactional
-    public RedisSubtractResult subtractStock(CreateOrderDto dto) {
+    public RedisSubtractResult subtractStock(final CreateOrderDto dto) {
         return concurrencyManager.subtractMultipleStocks(dto.getKeyQuantityPair(STOCK_KEY_FORMAT));
     }
 
     @Transactional
-    public ResultCode setStock(List<StockCacheDto> cacheDtos) {
+    public ResultCode setStock(final List<StockCacheDto> cacheDtos) {
         log.debug("없는 상품 정보 캐시 등록 시작");
-        Map<String, Integer> keyQuantityPair = cacheDtos.stream().collect(Collectors.toMap(dto -> STOCK_KEY_FORMAT + dto.getId(), StockCacheDto::getQuantity));
+        Map<String, Integer> keyQuantityPair = cacheDtos.stream().collect(Collectors.toMap(dto -> String.format("stock:%s", dto.getId()), StockCacheDto::getQuantity));
         return concurrencyManager.setMultipleStocks(keyQuantityPair);
     }
 

@@ -16,9 +16,10 @@ public class StockCacheService {
     private final StockRepository stockRepository;
     private final StockRedisManager stockRedisManager;
 
-    public void updateStocksInCache(Set<Long> stockIds) {
+    public void updateStocksInCache(final Set<Long> stockIds) {
         List<Stock> stocks = stockRepository.findAllById(stockIds);
-        List<StockCacheDto> cacheDtos = stocks.stream().map(StockCacheDto::from)
+        List<StockCacheDto> cacheDtos = stocks.stream()
+                .map(StockCacheDto::from)
                 .toList();
 
         stockRedisManager.setStock(cacheDtos);

@@ -12,17 +12,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalRestControllerAdvice {
 
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler({Throwable.class})
-	protected ResponseEntity<String> handle(Throwable throwable) {
-		log.error("[UnknownException] Occur exception.", throwable);
-		return ResponseEntity.ok(throwable.getMessage());
-	}
-
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler({ApplicationException.class})
 	protected ResponseEntity<String> handle(ApplicationException applicationException) {
-		log.error("[PointApplicationException] exception.", applicationException);
+		log.error("[ApplicationException] Exception: ", applicationException);
 		return ResponseEntity.ok(applicationException.getMessage());
 	}
 }

@@ -4,6 +4,7 @@ import com.ordersystem.category.domain.Category;
 import com.ordersystem.category.domain.CategoryRepository;
 import com.ordersystem.common.IntegrationTest;
 import com.ordersystem.common.helper.FixtureBuilder;
+import com.ordersystem.config.RedisTestConfig;
 import com.ordersystem.stock.application.StockService;
 import com.ordersystem.stock.application.dto.*;
 import com.ordersystem.stock.domain.Stock;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.Optional;
@@ -22,6 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+@Import({RedisTestConfig.class})
 @DisplayName("[Integration] 상품 통합 테스트")
 @IntegrationTest
 class StockServiceTest {

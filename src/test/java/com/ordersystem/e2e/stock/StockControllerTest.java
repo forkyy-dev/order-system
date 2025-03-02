@@ -4,6 +4,7 @@ import com.ordersystem.category.domain.Category;
 import com.ordersystem.category.domain.CategoryRepository;
 import com.ordersystem.common.ControllerTest;
 import com.ordersystem.common.helper.FixtureBuilder;
+import com.ordersystem.config.RedisTestConfig;
 import com.ordersystem.stock.domain.Stock;
 import com.ordersystem.stock.domain.StockRepository;
 import com.ordersystem.stock.ui.dto.StockCreateRequest;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
@@ -23,6 +25,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.document;
 
+@Import({RedisTestConfig.class})
 @DisplayName("[RestDocs] 상품 API 테스트")
 class StockControllerTest extends ControllerTest {
 

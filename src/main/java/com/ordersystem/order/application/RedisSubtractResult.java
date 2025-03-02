@@ -31,6 +31,7 @@ public class RedisSubtractResult {
     public boolean isSoldOut() {
         return !soldOutIds.isEmpty();
     }
+
     public boolean isNotFound() {
         return !notFoundIds.isEmpty();
     }

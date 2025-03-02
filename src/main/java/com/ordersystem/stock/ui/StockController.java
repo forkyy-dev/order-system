@@ -1,9 +1,9 @@
 package com.ordersystem.stock.ui;
 
 import com.ordersystem.stock.application.StockService;
+import com.ordersystem.stock.application.dto.SearchStockDto;
 import com.ordersystem.stock.application.dto.StockDto;
 import com.ordersystem.stock.application.dto.StockPaginationDto;
-import com.ordersystem.stock.application.dto.SearchStockDto;
 import com.ordersystem.stock.ui.dto.StockCreateRequest;
 import com.ordersystem.stock.ui.dto.StockModifyRequest;
 import jakarta.validation.Valid;
@@ -50,7 +50,7 @@ public class StockController {
             @NotNull @RequestParam Long categoryId,
             @RequestParam String stockName,
             @PageableDefault Pageable pageable
-            ) {
+    ) {
         StockPaginationDto result = stockService.search(new SearchStockDto(categoryId, stockName, pageable));
         return ResponseEntity.ok(result);
     }
