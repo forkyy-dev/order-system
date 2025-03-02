@@ -1,7 +1,7 @@
 package com.ordersystem.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ordersystem.common.config.RedisEmbeddedConfig;
+import com.ordersystem.common.config.TestRedisEmbeddedConfig;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.config.ObjectMapperConfig;
@@ -22,7 +22,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Import({RedisEmbeddedConfig.class})
+@Import({TestRedisEmbeddedConfig.class})
 @ExtendWith(RestDocumentationExtension.class)
 public class ControllerTest {
 
