@@ -1,0 +1,70 @@
+
+== 주문
+
+=== 1. 가주문 생성 API
+
+==== Request
+include::{snippets}/order-create/http-request.adoc[]
+include::{snippets}/order-create/request-fields.adoc[]
+
+==== Response
+include::{snippets}/order-create/http-response.adoc[]
+include::{snippets}/order-create/response-fields.adoc[]
+
+
+=== 2. 주문 확정 API
+
+==== Request
+include::{snippets}/order-confirm/http-request.adoc[]
+include::{snippets}/order-confirm/request-fields.adoc[]
+
+==== Response
+include::{snippets}/order-confirm/http-response.adoc[]
+include::{snippets}/order-confirm/response-fields.adoc[]
+
+
+=== 2. 주문 확정 API
+
+==== Request
+include::{snippets}/order-confirm/http-request.adoc[]
+include::{snippets}/order-confirm/request-fields.adoc[]
+include::{snippets}/order-confirm/path-parameters.adoc[]
+
+==== Response
+include::{snippets}/order-confirm/http-response.adoc[]
+include::{snippets}/order-confirm/response-fields.adoc[]
+
+=== 3. 주문 취소 API
+
+==== Request
+include::{snippets}/order-cancel/http-request.adoc[]
+include::{snippets}/order-confirm/request-fields.adoc[]
+include::{snippets}/order-confirm/path-parameters.adoc[]
+
+
+==== Response
+include::{snippets}/order-cancel/http-response.adoc[]
+include::{snippets}/order-cancel/response-fields.adoc[]
+
+
+=== 4. 주문 단건 조회 API
+
+==== Request
+include::{snippets}/order-cancel/http-request.adoc[]
+include::{snippets}/order-confirm/path-parameters.adoc[]
+
+==== Response
+include::{snippets}/order-cancel/http-response.adoc[]
+include::{snippets}/order-cancel/response-fields.adoc[]
+
+=== 5. 주문 여러건 조회 API
+
+==== Request
+include::{snippets}/order-cancel/http-request.adoc[]
+include::{snippets}/order-confirm/request-fields.adoc[]
+include::{snippets}/order-confirm/path-parameters.adoc[]
+
+
+==== Response
+include::{snippets}/order-cancel/http-response.adoc[]
+include::{snippets}/order-cancel/response-fields.adoc[]
