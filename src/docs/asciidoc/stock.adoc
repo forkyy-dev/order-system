@@ -1,0 +1,46 @@
+
+== 상픔
+
+=== 1. 상품 생성 API
+
+==== Request
+include::{snippets}/stock-create/http-request.adoc[]
+include::{snippets}/stock-create/request-fields.adoc[]
+
+==== Response
+include::{snippets}/stock-create/http-response.adoc[]
+include::{snippets}/stock-create/response-fields.adoc[]
+
+
+=== 2. 상품 수정 API
+
+==== Request
+include::{snippets}/stock-modify/http-request.adoc[]
+include::{snippets}/stock-modify/request-fields.adoc[]
+include::{snippets}/stock-modify/path-parameters.adoc[]
+
+
+==== Response
+include::{snippets}/stock-modify/http-response.adoc[]
+include::{snippets}/stock-modify/response-fields.adoc[]
+
+
+=== 3. 상품 삭제 API
+
+==== Request
+include::{snippets}/stock-delete/http-request.adoc[]
+include::{snippets}/stock-delete/path-parameters.adoc[]
+
+==== Response
+include::{snippets}/stock-delete/http-response.adoc[]
+
+=== 4. 상품 조회 API
+
+==== Request
+include::{snippets}/stock-search/http-request.adoc[]
+include::{snippets}/stock-search/query-parameters.adoc[]
+
+
+==== Response
+include::{snippets}/stock-search/http-response.adoc[]
+include::{snippets}/stock-search/response-fields.adoc[]

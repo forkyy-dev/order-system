@@ -1,19 +1,14 @@
 package com.ordersystem.stock.application.dto;
 
-import com.ordersystem.stock.domain.Stock;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class StockCreateDto {
-
+public class ModifyStockDto {
+    private final long id;
     private final String name;
     private final double price;
-    private final int maxQuantity;
+    private final int quantity;
     private final long categoryId;
-
-    public Stock toEntity() {
-        return new Stock(name, price, maxQuantity, maxQuantity, categoryId);
-    }
 }

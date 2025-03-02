@@ -1,6 +1,6 @@
 package com.ordersystem.stock.ui.dto;
 
-import com.ordersystem.stock.application.dto.StockModifyDto;
+import com.ordersystem.stock.application.dto.ModifyStockDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -11,11 +11,10 @@ import lombok.RequiredArgsConstructor;
 public class StockModifyRequest {
     private final String stockName;
     private final Double price;
-    private final Integer currentQuantity;
-    private final Integer maxQuantity;
+    private final Integer quantity;
     private final Long categoryId;
 
-    public StockModifyDto toStockModifyDto(Long stockId) {
-        return new StockModifyDto(stockId, stockName, price, currentQuantity, maxQuantity, categoryId);
+    public ModifyStockDto toStockModifyDto(Long stockId) {
+        return new ModifyStockDto(stockId, stockName, price, quantity, categoryId);
     }
 }

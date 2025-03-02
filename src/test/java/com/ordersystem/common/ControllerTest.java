@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ActiveProfiles;
@@ -20,16 +21,16 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.restassured.RestAssuredRestDocumentation.documentationConfiguration;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ExtendWith(RestDocumentationExtension.class)
 @ActiveProfiles("test")
+@ExtendWith(RestDocumentationExtension.class)
 public class ControllerTest {
 
     @LocalServerPort
     protected int port;
-
+    @Autowired
+    protected StringRedisTemplate redisTemplate;
     @Autowired
     protected ObjectMapper objectMapper;
-
     protected RequestSpecification spec;
 
     {
@@ -58,5 +59,4 @@ public class ControllerTest {
                         )
                 );
     }
-
 }

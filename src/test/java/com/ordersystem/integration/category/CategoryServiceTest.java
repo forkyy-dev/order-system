@@ -1,4 +1,4 @@
-package com.ordersystem.integration.stock;
+package com.ordersystem.integration.category;
 
 import com.ordersystem.category.application.CategoryService;
 import com.ordersystem.category.application.dto.CategoryDto;
