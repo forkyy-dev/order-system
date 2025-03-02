@@ -68,7 +68,7 @@ class CategoryControllerTest extends ControllerTest {
 
         given(this.spec)
                 .filter(
-                        document("category-create",
+                        document("category-modify",
                                 pathParameters(parameterWithName("categoryId").description("카테고리 ID")),
                                 requestFields(
                                         fieldWithPath("categoryName").description("상품명").type(JsonFieldType.STRING)
@@ -92,7 +92,7 @@ class CategoryControllerTest extends ControllerTest {
     @DisplayName("관리자는 카테고리를 삭제할 수 있다.")
     void delete_category_success() {
         given(this.spec)
-                .filter(document("category-create", pathParameters(parameterWithName("categoryId").description("카테고리 ID"))))
+                .filter(document("category-delete", pathParameters(parameterWithName("categoryId").description("카테고리 ID"))))
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .header("Content-type", MediaType.APPLICATION_JSON_VALUE)
         .when()

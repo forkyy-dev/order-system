@@ -1,0 +1,39 @@
+### 1.가주문 생성
+POST http://localhost:8080/api/order
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "orderStocks": [
+    {
+      "stockId": 1,
+      "quantity": 2,
+      "price": 20000.0
+    }
+  ]
+}
+
+
+### 2.주문 확정
+PUT http://localhost:8080/api/order/1/confirm
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "paymentSuccess": true
+}
+
+### 3.주문 취소
+PUT http://localhost:8080/api/order/1/cancel
+Content-Type: application/json
+
+### 4.주문 단건 조회
+GET http://localhost:8080/api/orders/1?userId=1
+Content-Type: application/json
+
+### 5.주문 단건 조회
+GET http://localhost:8080/api/orders?userId=1
+Content-Type: application/json
+
+
+
